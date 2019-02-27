@@ -2,7 +2,7 @@ FROM node:9-onbuild as build
 
 CMD ["npm", "start"]
 
-FROM alpine:3.6
+FROM alpine:3.9
 COPY --from=build /usr/src/app /usr/src/app
 
 RUN apk update \
