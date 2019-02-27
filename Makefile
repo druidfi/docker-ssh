@@ -26,17 +26,22 @@ PHONY += push
 push: ## Push the image
 	docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
 
+PHONY += shell-ssh
+shell-ssh: ## Login to ssh container
+	docker exec -it sshtest sh
+
 PHONY += test
 test: V := v
 test: ## Test image
-	ssh test@localhost -p 2222 -${V}
+	ssh drupal@localhost -p 2222 -${V}
 
 PHONY += up
 up: PORT := 2222:22
 up: SOCK := /var/run/docker.sock:/var/run/docker.sock
 up: ## Start containers
 	docker run --name ubuntu -t -d ubuntu
-	docker run --name sshtest -d -p ${PORT} -v ${SOCK} -e FILTERS={\"name\":[\"^/ubuntu$$\"]} -e AUTH_MECHANISM=noAuth ${DOCKER_IMAGE}:${DOCKER_TAG}
+	docker run --name sshtest -d -p ${PORT} -v ${SOCK} -e FILTERS={\"name\":[\"^/headpower.fi.docker.amazee.io$$\"]} -e SHELL_USER=drupal -e AUTH_MECHANISM=noAuth ${DOCKER_IMAGE}:${DOCKER_TAG}
+	docker network connect amazeeio-network sshtest
 
 .PHONY: $(PHONY)
 
