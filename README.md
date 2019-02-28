@@ -43,7 +43,6 @@ message if you whish to contribute to this project.
 - [x] Interactive shell
 - [x] Execute single command
 - [x] HTTP API
-- [x] Web terminal
 - [x] Simple user authentication; one user/password
 - [x] Authenticate users by username and password
 - [x] Authenticate users by username and public key
@@ -77,36 +76,6 @@ Now you can access the container through SSH by using your favorite client. The 
     ###############################################################
 
     /opt/nginx $
-
-# Web terminal
-
-Docker-SSH also implements a web terminal for convenience. The web terminal allows you to connect to your shell using a browser. Below is a screenshot of the web terminal in action.
-
-![Docker-SSH Web Terminal](https://raw.githubusercontent.com/jeroenpeeters/docker-ssh/master/docker-web-terminal.png)
-
-The web terminal is enabled by default, and exposed on port 8022. To disable the web terminal set `-e HTTP_ENABLED=false`.
-
-# Web API
-The web terminal uses the web API to communicate with the shell session. The API can be used by third party application as well.
-
-## Starting a session
-A new session can be obtained by calling the `/api/v1/terminal/stream` enpoint. This
-call creates a new session and returns a stream of HTML5 Server-Sent Events.
-There are two events: 1. connectionId, 2. data. The connectionId event contains a unique id for this session. This id must be used to send commands to the session. The data event contains serialized-string-escaped terminal data. When you close the stream, the session ends.
-
-    curl http://localhost:8022/api/v1/terminal/stream
-
-## Sending commands to a session
-To send commands to a session you use the connectionId obtained when starting the
-session. Use the endpoint `/api/v1/terminal/send/:sessionId` to send commands to the
-terminal session. It must be a post request that does a form submit with a `data` parameter populated with the command you whish to execute. Don't forget to send an enter character, otherwise it would not execute. Remember, this is a terminal!
-
-    curl -X POST http://localhost:8022/api/v1/terminal/send/122dbd35-d51d-4bc3-80c8-787d82370bee -d $'data=ls -al\n'
-
-## Resizing a terminalId
-The terminal can be resized by posting to endpoint `/api/v1/terminal/resize-window/:terminalId`. The endpoint accepts two parameters, rows and cols.
-
-    curl -X POST http://localhost:8022/api/v1/terminal/resize-window/2aaff6d2-b0e9-4e42-99c3-a80474b1c32f -d 'rows=10&cols=20'
 
 # User Authentication
 Docker-SSH has support for multiple authentication mechanisms. The following
@@ -206,8 +175,6 @@ CONTAINER_SHELL| bash     | path to a shell.
 AUTH_MECHANISM | None     | name of the authentication mechanism, see [User Authentication](#user-authentication)
 KEYPATH        | ./id_rsa | path to a private key to use as server identity
 PORT           | 22       | ssh server listens on this port
-HTTP_ENABLED   | true     | enable/disable the web terminal
-HTTP_PORT      | 8022     | web terminal listens on this port
 SHELL_USER     | root     | Run commands as this user *(Note: independent from authentication user)*
 
 # Credits

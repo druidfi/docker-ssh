@@ -21,13 +21,7 @@ ENV KEYPATH=./id_rsa
 # Server port
 ENV PORT=22
 
-# Web terminal disabled by default
-ENV HTTP_ENABLED=false
-
-# HTTP Port
-ENV HTTP_PORT=8022
-
-EXPOSE 22 8022
+EXPOSE 22
 
 WORKDIR /usr/src/app
 CMD ["npm", "start"]
