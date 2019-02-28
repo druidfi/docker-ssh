@@ -13,7 +13,7 @@
   "dependencies": {
     "body-parser": "~1.18.3",
     "bunyan": "~1.8.12",
-    "coffeescript": "~1.10.0",
+    "coffeescript": "^1.12.7",
     "dockerode": "^2.5.8",
     "express": "~4.16.4",
     "forever": "^0.15.1",
