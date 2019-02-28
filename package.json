@@ -18,7 +18,7 @@
     "express": "~4.16.4",
     "forever": "^0.15.1",
     "ssh2": "~0.4.11",
-    "ssh2-connect": "0.0.7",
+    "ssh2-connect": "1.0.2",
     "buffer-equal-constant-time": "1.0.1",
     "uuid": "~3.3.2"
   }
