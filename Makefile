@@ -40,7 +40,7 @@ up: PORT := 2222:22
 up: SOCK := /var/run/docker.sock:/var/run/docker.sock
 up: ## Start containers
 	docker run --name ubuntu -t -d ubuntu
-	docker run --name sshtest -d -p ${PORT} -v ${SOCK} -e FILTERS={\"name\":[\"^/headpower.fi.docker.amazee.io$$\"]} -e SHELL_USER=drupal -e AUTH_MECHANISM=noAuth ${DOCKER_IMAGE}:${DOCKER_TAG}
+	docker run --name sshtest -d -p ${PORT} -v ${SOCK} -v "$$(pwd)/sync:/usr/src/sync" -e FILTERS={\"name\":[\"^/headpower.fi.docker.amazee.io$$\"]} -e SHELL_USER=drupal -e AUTH_MECHANISM=noAuth ${DOCKER_IMAGE}:${DOCKER_TAG}
 	docker network connect amazeeio-network sshtest
 
 .PHONY: $(PHONY)
